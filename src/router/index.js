@@ -3,7 +3,13 @@ import VueRouter from "vue-router";
 
 import Index from "@/components/Index";
 import About from "@/components/About";
-import Items from "@/components/Items";
+import Category from "@/components/Category";
+import Commodity from "@/components/Commodity";
+
+const originalPush = VueRouter.prototype.push;
+VueRouter.prototype.push = function(location) {
+  return originalPush.call(this, location).catch(err => err)
+}
 
 Vue.use(VueRouter)
 export default new VueRouter({
@@ -19,9 +25,14 @@ export default new VueRouter({
       component: About,
     },
     {
-      path: '/items',
-      name: 'Items',
-      component: Items,
+      path: '/category/:id',
+      name: 'Category',
+      component: Category,
+    },
+    {
+      path: '/commodity/:id',
+      name: 'Commodity',
+      component: Commodity,
     },
   ],
 })

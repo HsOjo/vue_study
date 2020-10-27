@@ -10,7 +10,7 @@
 
 <style scoped>
   footer {
-    width: 100%;
-    background: lightgrey;
+    margin-left: auto;
+    margin-right: auto;
   }
 </style>

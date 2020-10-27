@@ -4,7 +4,7 @@
       <el-header>
         <Header></Header>
       </el-header>
-      <el-main>
+      <el-main id="main-content">
         <router-view></router-view>
       </el-main>
       <el-footer>
@@ -32,6 +32,14 @@
   #app {
     padding: 0;
     margin: 0 auto;
-    width: 1140px;
+    width: 100vw;
+  }
+
+  #main-content {
+    min-height: calc(100vh - 120px);
+    box-sizing: border-box;
+    margin-left: auto;
+    margin-right: auto;
+    width: 1600px;
   }
 </style>

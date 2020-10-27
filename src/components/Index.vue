@@ -1,7 +1,7 @@
 <template>
   <el-container>
     <el-aside width="224px">
-      <Category></Category>
+      <CategoryAside></CategoryAside>
     </el-aside>
     <el-main>
       <p @click="$router.push('/about')">This is index page.</p>
@@ -10,11 +10,11 @@
 </template>
 
 <script>
-  import Category from "@/components/common/Category";
+  import CategoryAside from "@/components/common/CategoryAside";
 
   export default {
     name: "Home",
-    components: {Category}
+    components: {CategoryAside}
   }
 </script>
 

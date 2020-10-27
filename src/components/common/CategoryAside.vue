@@ -1,8 +1,8 @@
 <template>
 
   <el-menu>
-    <el-menu-item v-for="category in categories" v-bind:index="category.id" v-bind:key="category" @click="openCategory(category)">
-      <img class="pic-category" v-bind:src="vm.api.BASE + category.image" alt=""/>
+    <el-menu-item v-for="category in categories" :key="category.id" @click="openCategory(category)">
+      <img class="pic-category" :src="vm.api.BASE + category.image" alt=""/>
       {{category.name}}
     </el-menu-item>
   </el-menu>
@@ -10,12 +10,12 @@
 
 <script>
   export default {
-    name: "Category",
+    name: "CategoryAside",
     data() {
       return {
         vm: null,
         categories: [
-          {id: null, image: null, name: null, sortOrder: null}
+          // {id: null, image: null, name: null, sortOrder: null}
         ]
       };
     },
@@ -25,15 +25,15 @@
     },
     methods: {
       getCategories() {
-        this.req.get(this.api.CONTACT_LIST).then(resp => {
-          this.categories = resp.data;
-          this.categories.sort(function (a, b) {
+        this.req.get(this.api.CATEGORY_LIST).then(resp => {
+          this.categories = resp.data.data;
+          this.categories.sort((a, b) => {
             return a.sortOrder > b.sortOrder;
           })
         })
       },
       openCategory(category) {
-        console.log(category)
+        this.$router.push(`/category/${category.id}`)
       },
     }
   }

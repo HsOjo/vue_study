@@ -10,8 +10,10 @@ import requests from './utils/requests'
 Vue.prototype.api = api;
 Vue.prototype.req = requests;
 
-Vue.use(ElementUI, {size: 'small', zIndex: 3000})
-Vue.config.productionTip = false
+Vue.use(ElementUI, {size: 'small', zIndex: 3000});
+
+Vue.prototype.bus = new Vue()
+Vue.prototype.session = sessionStorage
 
 new Vue({
   render: h => h(App),

@@ -1,7 +1,9 @@
 <template>
   <el-menu class="el-menu-demo" mode="horizontal">
     <el-menu-item>
-      <img id="img-logo" src="@/assets/logo.gif" alt="logo" @click="$router.push({ path:'/index', name: 'Index' })">
+      <router-link to="/">
+        <img id="img-logo" src="@/assets/logo.gif" alt="logo">
+      </router-link>
     </el-menu-item>
 
     <el-menu-item>
@@ -53,5 +55,6 @@
 <style scoped>
   #img-logo {
     height: 100%;
+    padding-bottom: 2px;
   }
 </style>
