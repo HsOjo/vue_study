@@ -12,43 +12,58 @@
       </el-input>
     </el-menu-item>
 
-    <el-menu-item style="float: right">
-      <el-dropdown>
-        <span class="el-dropdown-link">
-          <i class="el-icon-user"></i>
-          会员中心
-          <i class="el-icon-arrow-down el-icon--right"></i>
-        </span>
-        <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item>黄金糕</el-dropdown-item>
-          <el-dropdown-item>狮子头</el-dropdown-item>
-          <el-dropdown-item>螺蛳粉</el-dropdown-item>
-          <el-dropdown-item disabled>双皮奶</el-dropdown-item>
-          <el-dropdown-item divided>蚵仔煎</el-dropdown-item>
-        </el-dropdown-menu>
-      </el-dropdown>
-    </el-menu-item>
-    <el-menu-item style="float: right">欢迎，xxx。</el-menu-item>
-    <el-menu-item style="float: right">
-      <el-dropdown>
-        <span class="el-dropdown-link">
-          <i class="el-icon-shopping-cart-1"></i>
-        </span>
-        <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item>黄金糕</el-dropdown-item>
-          <el-dropdown-item>狮子头</el-dropdown-item>
-          <el-dropdown-item>螺蛳粉</el-dropdown-item>
-          <el-dropdown-item disabled>双皮奶</el-dropdown-item>
-          <el-dropdown-item divided>蚵仔煎</el-dropdown-item>
-        </el-dropdown-menu>
-      </el-dropdown>
-    </el-menu-item>
+    <template v-if="currentUser">
+      <el-menu-item style="float: right">
+        <el-dropdown>
+          <span class="el-dropdown-link">
+            <i class="el-icon-user"></i>
+            会员中心
+            <i class="el-icon-arrow-down el-icon--right"></i>
+          </span>
+          <el-dropdown-menu slot="dropdown">
+            <el-dropdown-item>黄金糕</el-dropdown-item>
+            <el-dropdown-item>狮子头</el-dropdown-item>
+            <el-dropdown-item>螺蛳粉</el-dropdown-item>
+            <el-dropdown-item disabled>双皮奶</el-dropdown-item>
+            <el-dropdown-item divided>蚵仔煎</el-dropdown-item>
+          </el-dropdown-menu>
+        </el-dropdown>
+      </el-menu-item>
+      <el-menu-item style="float: right">欢迎，{{currentUser.nickname}}。</el-menu-item>
+      <el-menu-item style="float: right">
+        <el-dropdown>
+          <span class="el-dropdown-link">
+            <i class="el-icon-shopping-cart-1"></i>
+          </span>
+          <el-dropdown-menu slot="dropdown">
+            <el-dropdown-item>黄金糕</el-dropdown-item>
+            <el-dropdown-item>狮子头</el-dropdown-item>
+            <el-dropdown-item>螺蛳粉</el-dropdown-item>
+            <el-dropdown-item disabled>双皮奶</el-dropdown-item>
+            <el-dropdown-item divided>蚵仔煎</el-dropdown-item>
+          </el-dropdown-menu>
+        </el-dropdown>
+      </el-menu-item>
+    </template>
+    <template v-else>
+      <el-menu-item style="float: right" index="login">
+        <router-link to="/login" style="text-decoration: none;">登录</router-link>
+      </el-menu-item>
+    </template>
   </el-menu>
 </template>
 
 <script>
   export default {
-    name: "Header"
+    name: "Header",
+    computed: {
+      currentUser() {
+        return this.stor.local.get('user')
+      }
+    },
+    // mounted() {
+    //   window.header = this
+    // }
   }
 </script>
 

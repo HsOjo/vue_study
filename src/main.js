@@ -15,7 +15,6 @@ Vue.prototype.stor = storage;
 Vue.use(ElementUI, {size: 'small', zIndex: 3000});
 
 Vue.prototype.bus = new Vue()
-Vue.prototype.session = sessionStorage
 
 new Vue({
   render: h => h(App),

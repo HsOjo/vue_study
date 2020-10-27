@@ -21,6 +21,7 @@ export default {
     margin-right: 32px;
     margin-left: 20px;
     margin-bottom: 40px;
+    flex: none;
   }
 
   .commodity-link {

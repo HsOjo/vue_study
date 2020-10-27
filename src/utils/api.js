@@ -12,4 +12,5 @@ export default {
   COMMODITY_HOT_LIST: v1 + '/catalog/product',
   CART_LIST: v1 + '/cart',
   CART_ADD: v1 + '/cart/add',
+  USER_LOGIN: v1 + '/login',
 }

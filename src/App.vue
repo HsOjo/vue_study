@@ -40,6 +40,8 @@
     box-sizing: border-box;
     margin-left: auto;
     margin-right: auto;
-    width: 1600px;
+    width: 100%;
+    min-width: 800px;
+    max-width: 1600px;
   }
 </style>
