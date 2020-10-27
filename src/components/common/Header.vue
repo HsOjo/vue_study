@@ -53,6 +53,10 @@
 </script>
 
 <style scoped>
+  * {
+    user-select: none;
+  } 
+
   #img-logo {
     height: 100%;
     padding-bottom: 2px;

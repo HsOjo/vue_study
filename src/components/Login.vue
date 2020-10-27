@@ -1,10 +1,12 @@
 <template>
-  <p @click="$router.push('/index')">This is about page.</p>
+  <el-container>
+    
+  </el-container>
 </template>
 
 <script>
   export default {
-    name: "About"
+    name: "Login"
   }
 </script>
 

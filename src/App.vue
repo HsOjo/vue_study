@@ -32,7 +32,7 @@
   #app {
     padding: 0;
     margin: 0 auto;
-    width: 100vw;
+    width: 100%;
   }
 
   #main-content {

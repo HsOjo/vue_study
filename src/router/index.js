@@ -2,7 +2,7 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 
 import Index from "@/components/Index";
-import About from "@/components/About";
+import Login from "@/components/Login";
 import Category from "@/components/Category";
 import Commodity from "@/components/Commodity";
 
@@ -20,9 +20,9 @@ export default new VueRouter({
       component: Index,
     },
     {
-      path: '/about',
-      name: 'About',
-      component: About,
+      path: '/login',
+      name: 'Login',
+      component: Login,
     },
     {
       path: '/category/:id',

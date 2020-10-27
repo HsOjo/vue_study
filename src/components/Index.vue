@@ -4,7 +4,7 @@
       <CategoryAside></CategoryAside>
     </el-aside>
     <el-main>
-      <p @click="$router.push('/about')">This is index page.</p>
+      <p @click="$router.push('/login')">This is index page.</p>
     </el-main>
   </el-container>
 </template>

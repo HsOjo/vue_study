@@ -38,20 +38,8 @@
               <span v-html="commodity.explain"></span>
             </el-tab-pane>
             <el-tab-pane label="商品评论">
-              <el-card class="box-card" v-for="comment in comments" :key="comment.id" style="margin-bottom: 24px">
-                <div slot="header" class="clearfix">
-                  <span style="font-size: 16px; margin-right: 16px">{{comment.user.nickname}}</span>
-                  <el-rate 
-                    v-model="comment.stars"
-                    :score-template="`${comment.stars}分`"
-                    disabled show-score text-color="#ff9900"
-                    style="display: inline"
-                    ></el-rate>
-                </div>
-                <span style="color: #aaaaaa; font-size: 14px">{{comment.content}}</span>
-              </el-card>
-              <el-row>
-                <span style="display: block; padding-top: 16px">添加评论</span>
+              <el-row style="margin-bottom: 32px">
+                <span style="display: block;">添加评论</span>
                 <el-divider></el-divider>
                 <el-input
                   type="textarea"
@@ -72,6 +60,18 @@
                     @click="addComment(commodityId, comment_text, comment_star)">提交</el-button>
                 </el-row>
               </el-row>
+              <el-card class="box-card" v-for="comment in comments" :key="comment.id" style="margin-bottom: 24px">
+                <div slot="header" class="clearfix">
+                  <span style="font-size: 16px; margin-right: 16px">{{comment.user.nickname}}</span>
+                  <el-rate 
+                    v-model="comment.stars"
+                    :score-template="`${comment.stars}分`"
+                    disabled show-score text-color="#ff9900"
+                    style="display: inline"
+                    ></el-rate>
+                </div>
+                <span style="color: #aaaaaa; font-size: 14px">{{comment.content}}</span>
+              </el-card>
             </el-tab-pane>
           </el-tabs>
         </el-row>
