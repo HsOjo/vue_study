@@ -1,5 +1,5 @@
 <template>
-  <p>This is footer.</p>
+<p style="text-align: center; color: #666666;">全国高职院校Web应用软件开发技能竞赛</p>
 </template>
 
 <script>
@@ -9,8 +9,4 @@
 </script>
 
 <style scoped>
-  footer {
-    margin-left: auto;
-    margin-right: auto;
-  }
 </style>

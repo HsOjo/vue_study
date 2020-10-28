@@ -45,9 +45,9 @@
     methods: {
       getCategoryInfo(category_id) {
         this.req.get(`${this.api.CATEGORY_INFO}/${category_id}`).then(
-            resp => {
-              this.category = resp.data.data.productList;
-            }
+          resp => {
+            this.category = resp.data.productList;
+          }
         );
       }
     },

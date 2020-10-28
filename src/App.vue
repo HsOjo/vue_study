@@ -33,6 +33,7 @@
     padding: 0;
     margin: 0 auto;
     width: 100%;
+    font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
   }
 
   #main-content {
@@ -43,5 +44,6 @@
     width: 100%;
     min-width: 800px;
     max-width: 1600px;
+    overflow: inherit;
   }
 </style>

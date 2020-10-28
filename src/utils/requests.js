@@ -1,13 +1,18 @@
 import axios from 'axios'
 
+axios.timeout = 5000;
 axios.interceptors.response.use(
-    resp => {
-      console.log('resp:', resp.data);
-      return resp;
-    }, err => {
-      console.log('err:', err.data);
-      return err;
-    }
+  resp => {
+    console.log('resp:', resp);
+    return resp.data;
+  }, err => {
+    console.log('err:', err);
+    return {
+      data: {},
+      errorMsg: err.statusText || 'Unknown Error',
+      errorCode: -1
+    };
+  }
 )
 
 export default {
@@ -15,14 +20,12 @@ export default {
     return axios({
       method: 'get',
       url, params,
-      timeout: 30000
     })
   },
   post(url, data) {
     return axios({
       method: 'post',
       url, data,
-      timeout: 30000,
       headers: {
         'content-type': 'application/json;charset=UTF-8'
       }

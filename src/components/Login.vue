@@ -37,14 +37,15 @@
           pwd: password,
         }).then(
           resp => {
-            let user = resp.data.data;
+            let user = resp.data;
             if (user) {
-              this.stor.local.set('user', user);
+              this.stor.local.set('current_user', user);
+              this.bus.$emit('userChanged');
             }
             this.$router.push('/');
             this.$notify({
               title: '用户登录',
-              message: resp.data.errorMsg,
+              message: resp.errorMsg,
               offset: 64,
             });
           }

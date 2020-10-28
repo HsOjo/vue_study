@@ -26,7 +26,7 @@
     methods: {
       getCategories() {
         this.req.get(this.api.CATEGORY_LIST).then(resp => {
-          this.categories = resp.data.data;
+          this.categories = resp.data;
           this.categories.sort((a, b) => {
             return a.sortOrder > b.sortOrder;
           })

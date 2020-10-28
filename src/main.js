@@ -14,7 +14,7 @@ Vue.prototype.stor = storage;
 
 Vue.use(ElementUI, {size: 'small', zIndex: 3000});
 
-Vue.prototype.bus = new Vue()
+Vue.prototype.bus = new Vue();
 
 new Vue({
   render: h => h(App),

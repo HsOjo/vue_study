@@ -8,7 +8,7 @@
         <el-row>
           <!-- 商品信息 -->
           <el-col :span="12">
-            <el-image :src="vm.api.BASE + commodity.defaultImg" fit="scale-down" class="commodity-img"></el-image>
+            <el-image :src="vm.api.BASE + commodity.defaultImg" fit="scale-down" class="commodity-large-img"></el-image>
           </el-col>
           <el-col :span="12" class="commodity-info">
             <el-row style="padding-bottom: 16px">
@@ -38,7 +38,7 @@
               <span v-html="commodity.explain"></span>
             </el-tab-pane>
             <el-tab-pane label="商品评论">
-              <el-row style="margin-bottom: 32px">
+              <el-row style="margin-bottom: 32px" v-if="currentUser">
                 <span style="display: block;">添加评论</span>
                 <el-divider></el-divider>
                 <el-input
@@ -60,6 +60,7 @@
                     @click="addComment(commodityId, comment_text, comment_star)">提交</el-button>
                 </el-row>
               </el-row>
+              <template v-if="comments">
               <el-card class="box-card" v-for="comment in comments" :key="comment.id" style="margin-bottom: 24px">
                 <div slot="header" class="clearfix">
                   <span style="font-size: 16px; margin-right: 16px">{{comment.user.nickname}}</span>
@@ -72,6 +73,10 @@
                 </div>
                 <span style="color: #aaaaaa; font-size: 14px">{{comment.content}}</span>
               </el-card>
+              </template>
+              <div v-else style="text-align: center; margin-top: 32px; margin-bottom: 32px;">
+                <span style="color: #aaaaaa; font-size: 16px;">暂无用户评论</span>
+              </div>
             </el-tab-pane>
           </el-tabs>
         </el-row>
@@ -120,9 +125,12 @@
       this.getComments(this.commodityId)
     },
     computed: {
+      currentUser() {
+        return this.stor.local.get('currnet_user');
+      },
       commodityId() {
         return this.$route.params.id;
-      }
+      },
     },
     watch: {
       commodityId(new_value) {
@@ -134,32 +142,40 @@
     },
 
     methods: {
+      checkLogin(){
+        if(!this.currentUser){
+          this.$router.push('/login');
+          return false;
+        }
+        return true;
+      },
       getCommodityInfo(commodity_id) {
         this.req.post(`${this.api.COMMODITY_INFO}`, {productId: commodity_id}).then(
             resp => {
-              this.commodity = resp.data.data;
+              this.commodity = resp.data;
             }
         );
       },
       getBestSellers(commodity_id) {
         this.req.get(`${this.api.COMMODITY_HOT_LIST}/${commodity_id}/hot/1/pagesize/3`).then(
             resp => {
-              this.best_sellers = resp.data.data;
+              this.best_sellers = resp.data;
             }
         );
       },
       getComments(commodity_id) {
         this.req.get(`${this.api.COMMODITY_COMMENT_LIST}/${commodity_id}`).then(
             resp => {
-              this.comments = resp.data.data;
+              this.comments = resp.data;
             }
         );
       },
       addCart(commodity_id, num) {
+        this.checkLogin();
         this.req.post(`${this.api.CART_ADD}`, {
           productId: commodity_id,
           quantity: num,
-          userId: 123523,
+          userId: this.currentUser.id,
         }).then(
           resp => {
             console.log(resp.data);
@@ -167,11 +183,12 @@
         );
       },
       addComment(commodity_id, text, star) {
+        this.checkLogin();
         this.req.post(this.api.COMMODITY_COMMENT_ADD, {
           content: text,
           productId: commodity_id,
           stars: star,
-          userId: 123523,
+          userId: this.currentUser.id,
         }).then(
           resp => {
             this.getComments(commodity_id);
@@ -187,9 +204,8 @@
   .commodity-container {
     margin-left: auto;
     margin-right: auto;
-    padding-left: 256px;
-    padding-right: 256px;
     display: block;
+    width: 1024px;
   }
 
   .commodity-title {
@@ -198,7 +214,7 @@
     max-width: 800px;
   }
 
-  .commodity-img {
+  .commodity-large-img {
     border: 1px solid #ebebeb;
     padding: 8px;
     border-radius: 4px;
@@ -206,6 +222,7 @@
     height: 320px;
     position: relative;
     margin-left: 32px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04)
   }
 
   .commodity-thumb {
@@ -214,6 +231,7 @@
     border-radius: 4px;
     width: 64px;
     height: 64px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04)
   }
 
   .commodity-price {
@@ -226,5 +244,4 @@
     padding-left: 48px;
     padding-top: 16px;
   }
-
 </style>
