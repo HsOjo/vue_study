@@ -25,9 +25,7 @@ export default {
   }
 
   .commodity-link {
-    color: rgba(0, 0, 0, 0.6);
     font-size: 14px;
-    text-decoration: none;
     width: 150px;
   }
 

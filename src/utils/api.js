@@ -5,6 +5,7 @@ let v1 = `${url_base}/api/v1`;
 export default {
   BASE: url_base,
   CATEGORY_LIST: `${v1}/catalog/category/condition`,
+  CATEGORY_SUMMARY: `${v1}/catalog/category/product/8`,
   CATEGORY_INFO: `${v1}/catalog/product`,
   COMMODITY_INFO: `${v1}/catalog/product/details`,
   COMMODITY_COMMENT_LIST: `${v1}/catalog/product/reviews`,

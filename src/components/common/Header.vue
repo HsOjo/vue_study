@@ -1,9 +1,7 @@
 <template>
   <el-menu class="el-menu-demo" mode="horizontal" style="min-width: 960px">
-    <el-menu-item>
-      <router-link to="/">
-        <img id="img-logo" src="@/assets/logo.gif" alt="logo">
-      </router-link>
+    <el-menu-item @click="$router.push('/')">
+      <img id="img-logo" src="@/assets/logo.gif" alt="logo">
     </el-menu-item>
 
     <el-menu-item index="1">
@@ -14,8 +12,9 @@
 
     <template v-if="current_user">
       <el-menu-item style="float: right" index="2">
+        <!-- 会员中心 -->
         <el-dropdown trigger="click">
-          <span class="el-dropdown-link">
+          <span class="el-dropdown-link expand-menu-item">
             <i class="el-icon-user"></i>
             会员中心
             <i class="el-icon-arrow-down el-icon--right"></i>
@@ -28,9 +27,9 @@
       <el-menu-item style="float: right">欢迎，{{current_user.nickname}}。</el-menu-item>
       <el-menu-item style="float: right" index="4">
         <!-- 购物车 -->
-        <el-dropdown trigger="click" :hide-on-click="false" ref="dropdown" @command="checkDropDown">
+        <el-dropdown trigger="click" :hide-on-click="false" ref="cart" @command="cartClicked">
           <span class="el-dropdown-link">
-            <i class="el-icon-shopping-cart-1"></i>
+            <i class="el-icon-shopping-cart-1 expand-menu-item"></i>
           </span>
           <el-dropdown-menu slot="dropdown">
             <template v-if="cart_items.length">
@@ -52,7 +51,7 @@
               </el-dropdown-item>
               <el-dropdown-item class="cart-final-item" command="final" divided>
                 <el-tag type="warning">共：¥{{cart_price}}</el-tag>
-                <router-link to="/shopping-cart">
+                <router-link to="/account/shopping-cart">
                   <el-button type="success" style="float: right" size="mini">查看购物车</el-button>
                 </router-link>
               </el-dropdown-item>
@@ -89,9 +88,9 @@
       this.getCartItems();
     },
     methods: {
-      checkDropDown(command) {
+      cartClicked(command) {
         if(command !== 'final') {
-          this.$refs.dropdown.visible = false
+          this.$refs.cart.visible = false
         }
       },
       userCommand(command){
@@ -124,7 +123,6 @@
 
   #img-logo {
     height: 100%;
-    padding-bottom: 2px;
   }
 
   .commodity-thumb {
@@ -144,5 +142,10 @@
   }
   .cart-final-item:hover {
     background: white;
+  }
+
+  .expand-menu-item {
+    padding-top: 16px;
+    padding-bottom: 16px;
   }
 </style>

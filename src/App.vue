@@ -46,4 +46,9 @@
     max-width: 1600px;
     overflow: inherit;
   }
+
+  a {
+    text-decoration: none;
+    color: rgba(0, 0, 0, 0.6);
+  }
 </style>

@@ -27,7 +27,7 @@
             </el-row>
             <el-row style="margin-top: 16px; text-align: center">
               <el-button type="warning" round @click="addCartItem(commodity.id, count)">加入购物车</el-button>
-              <el-button type="danger" round>立即购买</el-button>
+              <el-button type="danger" round @click="addCartItem(commodity.id, count, true)">立即购买</el-button>
             </el-row>
           </el-col>
         </el-row>
@@ -175,7 +175,7 @@
             }
         );
       },
-      addCartItem(commodity_id, num) {
+      addCartItem(commodity_id, num, to_cart) {
         this.checkLogin();
         this.req.post(`${this.api.CART_ADD}`, {
           productId: commodity_id,
@@ -184,7 +184,11 @@
         }).then(
           resp => {
             this.bus.$emit('cartChanged');
-            this.notify('添加购物车', resp.errorMsg);
+            if (to_cart) {
+              this.$router.push('/account/shopping-cart')
+            } else {
+              this.notify('添加购物车', resp.errorMsg);
+            }
           }
         );
       },
