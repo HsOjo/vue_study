@@ -27,31 +27,37 @@
       </el-menu-item>
       <el-menu-item style="float: right">欢迎，{{current_user.nickname}}。</el-menu-item>
       <el-menu-item style="float: right" index="4">
+        <!-- 购物车 -->
         <el-dropdown trigger="click" :hide-on-click="false" ref="dropdown" @command="checkDropDown">
           <span class="el-dropdown-link">
             <i class="el-icon-shopping-cart-1"></i>
           </span>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item v-for="commodity in cart_items" :key="commodity.id">
-              <el-row style="width: 320px">
-                <router-link :to="`/commodity/${commodity.id}`">
-                  <el-col :span="6">
-                    <el-image :src="vm.api.BASE + commodity.defaultImg" fit="scale-down" class="commodity-thumb"></el-image>
-                  </el-col>
-                  <el-col :span="18">
-                    <span style="color: #666666; font-size:9px">{{commodity.name}}</span>
-                    <br>
-                    <span style="color: #233333; font-size: 12px">¥{{commodity.shopPrice}}</span>
-                    &nbsp;
-                    <span style="color: #aaaaaa; font-size:9px">数量：{{commodity.quantity}}</span>
-                  </el-col>
+            <template v-if="cart_items.length">
+              <el-dropdown-item v-for="commodity in cart_items" :key="commodity.id">
+                <el-row style="width: 320px">
+                  <router-link :to="`/commodity/${commodity.id}`">
+                    <el-col :span="6">
+                      <el-image :src="vm.api.BASE + commodity.defaultImg" fit="scale-down" class="commodity-thumb"></el-image>
+                    </el-col>
+                    <el-col :span="18">
+                      <span style="color: #666666; font-size:9px">{{commodity.name}}</span>
+                      <br>
+                      <span style="color: #233333; font-size: 12px">¥{{commodity.shopPrice}}</span>
+                      &nbsp;
+                      <span style="color: #aaaaaa; font-size:9px">数量：{{commodity.quantity}}</span>
+                    </el-col>
+                  </router-link>
+                </el-row>
+              </el-dropdown-item>
+              <el-dropdown-item class="cart-final-item" command="final" divided>
+                <el-tag type="warning">共：¥{{cart_price}}</el-tag>
+                <router-link to="/shopping-cart">
+                  <el-button type="success" style="float: right" size="mini">查看购物车</el-button>
                 </router-link>
-              </el-row>
-            </el-dropdown-item>
-            <el-dropdown-item class="cart-final-item" command="final" divided>
-              <el-tag type="warning">共：¥{{cart_price}}</el-tag>
-              <el-button type="success" style="float: right" size="mini">查看购物车</el-button>
-            </el-dropdown-item>
+              </el-dropdown-item>
+            </template>
+            <el-dropdown-item v-else disabled>购物车空空如也，去整点啥吧。</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
       </el-menu-item>
@@ -77,13 +83,10 @@
     },
     created() {
       this.vm = this;
-      this.bus.$on('userChanged', () => {
-        this.current_user = this.stor.local.get('current_user');
-      });
-      this.bus.$emit('userChanged');
-
+      this.bus.$on('userChanged', this.getCurrentUser);
+      this.getCurrentUser();
       this.bus.$on('cartChanged', this.getCartItems);
-      this.bus.$emit('cartChanged');
+      this.getCartItems();
     },
     methods: {
       checkDropDown(command) {
@@ -96,6 +99,9 @@
           this.stor.local.remove('current_user');
           this.bus.$emit('userChanged');
         }
+      },
+      getCurrentUser() {
+        this.current_user = this.stor.local.get('current_user');
       },
       getCartItems() {
         this.req.post(this.api.CART_LIST, {

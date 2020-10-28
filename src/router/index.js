@@ -5,6 +5,7 @@ import Index from "@/components/Index";
 import Login from "@/components/Login";
 import Category from "@/components/Category";
 import Commodity from "@/components/Commodity";
+import ShoppingCart from "@/components/ShoppingCart";
 
 const originalPush = VueRouter.prototype.push;
 VueRouter.prototype.push = function(location) {
@@ -33,6 +34,11 @@ export default new VueRouter({
       path: '/commodity/:id',
       name: 'Commodity',
       component: Commodity,
+    },
+    {
+      path: '/shopping-cart',
+      name: 'ShoppingCart',
+      component: ShoppingCart,
     },
   ],
 })

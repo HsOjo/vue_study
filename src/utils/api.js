@@ -12,5 +12,8 @@ export default {
   COMMODITY_HOT_LIST: `${v1}/catalog/product`,
   CART_LIST: `${v1}/cart`,
   CART_ADD: `${v1}/cart/add`,
+  CART_REMOVE: `${v1}/cart/items/remove`,
+  CART_REMOVE_ALL: `${v1}/cart/items/removeall`,
+  CART_UPDATE: `${v1}/cart/items/update`,
   USER_LOGIN: `${v1}/login`,
 }

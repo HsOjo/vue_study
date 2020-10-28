@@ -23,10 +23,10 @@
             </el-row>
             <el-row style="text-align: center">
               <span style="color: #aeaeae; font-size: 12px">购买数量：</span>
-              <el-input-number v-model="count" :min="1" :max="10"></el-input-number>
+              <el-input-number v-model="count" :min="1"></el-input-number>
             </el-row>
             <el-row style="margin-top: 16px; text-align: center">
-              <el-button type="warning" round @click="addCart(commodity.id, count)">加入购物车</el-button>
+              <el-button type="warning" round @click="addCartItem(commodity.id, count)">加入购物车</el-button>
               <el-button type="danger" round>立即购买</el-button>
             </el-row>
           </el-col>
@@ -45,7 +45,7 @@
                   type="textarea"
                   placeholder="请输入内容"
                   v-model="comment_text"
-                  maxlength="30"
+                  maxlength="300"
                   show-word-limit
                   :rows="4"
                 ></el-input>
@@ -122,10 +122,8 @@
     created() {
       this.vm = this;
 
-      this.bus.$on('userChanged', () => {
-        this.current_user = this.stor.local.get('current_user');
-      });
-      this.bus.$emit('userChanged');
+      this.bus.$on('userChanged', this.getCurrentUser);
+      this.getCurrentUser();
 
       this.getCommodityInfo(this.commodityId)
       this.getBestSellers(this.commodityId)
@@ -153,6 +151,9 @@
         }
         return true;
       },
+      getCurrentUser() {
+        this.current_user = this.stor.local.get('current_user');
+      },
       getCommodityInfo(commodity_id) {
         this.req.post(`${this.api.COMMODITY_INFO}`, {productId: commodity_id}).then(
             resp => {
@@ -174,7 +175,7 @@
             }
         );
       },
-      addCart(commodity_id, num) {
+      addCartItem(commodity_id, num) {
         this.checkLogin();
         this.req.post(`${this.api.CART_ADD}`, {
           productId: commodity_id,
