@@ -43,11 +43,7 @@
               this.bus.$emit('userChanged');
             }
             this.$router.push('/');
-            this.$notify({
-              title: '用户登录',
-              message: resp.errorMsg,
-              offset: 64,
-            });
+            this.notify('用户登录', resp.errorMsg);
           }
         )
       }

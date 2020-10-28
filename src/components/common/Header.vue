@@ -81,7 +81,9 @@
         this.current_user = this.stor.local.get('current_user');
       });
       this.bus.$emit('userChanged');
-      this.getCartItems();
+
+      this.bus.$on('cartChanged', this.getCartItems);
+      this.bus.$emit('cartChanged');
     },
     methods: {
       checkDropDown(command) {
@@ -101,7 +103,7 @@
         }).then(
           resp => {
             this.cart_items = resp.data.productList;
-            this.cart_price = resp.data.price;
+            this.cart_price = resp.data.price.toFixed(2);
           }
         )
       }

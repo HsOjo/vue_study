@@ -38,7 +38,7 @@
               <span v-html="commodity.explain"></span>
             </el-tab-pane>
             <el-tab-pane label="商品评论">
-              <el-row style="margin-bottom: 32px" v-if="currentUser">
+              <el-row style="margin-bottom: 32px" v-if="current_user">
                 <span style="display: block;">添加评论</span>
                 <el-divider></el-divider>
                 <el-input
@@ -110,6 +110,7 @@
     data() {
       return {
         vm: null,
+        current_user: null,
         commodity: {},
         best_sellers: null,
         comments: null,
@@ -120,14 +121,17 @@
     },
     created() {
       this.vm = this;
+
+      this.bus.$on('userChanged', () => {
+        this.current_user = this.stor.local.get('current_user');
+      });
+      this.bus.$emit('userChanged');
+
       this.getCommodityInfo(this.commodityId)
       this.getBestSellers(this.commodityId)
       this.getComments(this.commodityId)
     },
     computed: {
-      currentUser() {
-        return this.stor.local.get('currnet_user');
-      },
       commodityId() {
         return this.$route.params.id;
       },
@@ -143,7 +147,7 @@
 
     methods: {
       checkLogin(){
-        if(!this.currentUser){
+        if(!this.current_user){
           this.$router.push('/login');
           return false;
         }
@@ -175,10 +179,11 @@
         this.req.post(`${this.api.CART_ADD}`, {
           productId: commodity_id,
           quantity: num,
-          userId: this.currentUser.id,
+          userId: this.current_user.id,
         }).then(
           resp => {
-            console.log(resp.data);
+            this.bus.$emit('cartChanged');
+            this.notify('添加购物车', resp.errorMsg);
           }
         );
       },
@@ -188,7 +193,7 @@
           content: text,
           productId: commodity_id,
           stars: star,
-          userId: this.currentUser.id,
+          userId: this.current_user.id,
         }).then(
           resp => {
             this.getComments(commodity_id);

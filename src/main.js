@@ -11,10 +11,12 @@ import storage from './utils/storage'
 Vue.prototype.api = api;
 Vue.prototype.req = requests;
 Vue.prototype.stor = storage;
+Vue.prototype.bus = new Vue();
+Vue.prototype.notify = (title, message) => { Vue.prototype.$notify({
+  title, message, offset: 64
+}) }
 
 Vue.use(ElementUI, {size: 'small', zIndex: 3000});
-
-Vue.prototype.bus = new Vue();
 
 new Vue({
   render: h => h(App),
