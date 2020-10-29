@@ -1,4 +1,4 @@
-let host = '192.168.185.2:8088'
+let host = '172.16.55.3:8088'
 let url_base = `http://${host}/shopping`;
 let v1 = `${url_base}/api/v1`;
 
@@ -11,10 +11,29 @@ export default {
   COMMODITY_COMMENT_LIST: `${v1}/catalog/product/reviews`,
   COMMODITY_COMMENT_ADD: `${v1}/catalog/product/add/review`,
   COMMODITY_HOT_LIST: `${v1}/catalog/product`,
+  COMMODITY_SEARCH: `${v1}/catalog/search/product`,
   CART_LIST: `${v1}/cart`,
   CART_ADD: `${v1}/cart/add`,
   CART_REMOVE: `${v1}/cart/items/remove`,
   CART_REMOVE_ALL: `${v1}/cart/items/removeall`,
   CART_UPDATE: `${v1}/cart/items/update`,
+  ORDER_COMMIT: `${v1}/user/orders/commitOrder`,
+  ORDER_LIST: `${v1}/user/orders/list`,
+  ORDER_VIEW: `${v1}/order`,
+  FAVOURITE_ADD: `${v1}/user/add/wishlist`,
+  FAVOURITE_REMOVE: `${v1}/user/remove/wishlist`,
+  FAVOURITE_LIST: `${v1}/user/wishlist`,
+  CONTACT_LIST: `${v1}/contect`,
+  CONTACT_ADD: `${v1}/user/add/contect`,
+  CONTACT_EDIT: `${v1}/user/update/contect`,
+  CONTACT_REMOVE: `${v1}/user/remove/contect`,
+  CONTACT_SET_DEFAULT: `${v1}/user/contect/default`,
+  USER_CHARGE: `${v1}/account/recharge`,
+  USER_AMOUNT: `${v1}/account/userAccount`,
+  USER_CHANGE_PASSWORD: `${v1}/user/change/password`,
+  USER_INFO: `${v1}/get/user/basic`,
+  USER_INFO_CHANGE: `${v1}/user/update/customer`,
   USER_LOGIN: `${v1}/login`,
+  PAYMENT_WECHAT: `${v1}/order/PayMent`,
+  PAYMENT_ALIPAY_CHECK: `${v1}/order/check`,
 }

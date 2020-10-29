@@ -14,7 +14,9 @@
             <el-row style="padding-bottom: 16px">
               <span class="commodity-price">市场价：¥{{commodity.price}}</span>&nbsp;
               <span class="commodity-price-real" style="font-size: 24px;">¥{{commodity.shop_price}}</span>
-              <el-button type="warning" icon="el-icon-star-off" circle id="btn-favourite" style="float: right;"></el-button>
+              <el-button type="warning" icon="el-icon-star-off" circle
+               id="btn-favourite" style="float: right;"
+               @click="addFavourite(commodity.id)"></el-button>
             </el-row>
             <el-row style="margin-top: 8px">
               <span style="color: #aeaeae; font-size: 16px">商品简介：</span><br>
@@ -44,20 +46,20 @@
                 <el-input
                   type="textarea"
                   placeholder="请输入内容"
-                  v-model="comment_text"
+                  v-model="comment.text"
                   maxlength="300"
                   show-word-limit
                   :rows="4"
                 ></el-input>
                 <el-row style="margin-top: 16px">
                   <el-rate 
-                    v-model="comment_star"
-                    :score-template="`${comment_star}分`"
+                    v-model="comment.star"
+                    :score-template="`${comment.star}分`"
                     show-score text-color="#ff9900"
                     style="float: left"
                   ></el-rate>
                   <el-button type="primary" icon="el-icon-edit" style="float: right"
-                    @click="addComment(commodityId, comment_text, comment_star)">提交</el-button>
+                    @click="addComment(commodityId, comment.text, comment.star)">提交</el-button>
                 </el-row>
               </el-row>
               <template v-if="comments">
@@ -114,8 +116,7 @@
         commodity: {},
         best_sellers: null,
         comments: null,
-        comment_star: 0,
-        comment_text: "",
+        comment: {},
         count: 1,
       }
     },
@@ -201,8 +202,20 @@
           userId: this.current_user.id,
         }).then(
           resp => {
+            this.notify('添加评论', resp.errorMsg);
             this.getComments(commodity_id);
-            console.log(resp.data);
+            this.comment = {star: 0};
+          }
+        );
+      },
+      addFavourite(commodity_id) {
+        this.checkLogin();
+        this.req.post(this.api.FAVOURITE_ADD, {
+          productId: commodity_id,
+          userId: this.current_user.id,
+        }).then(
+          resp => {
+            this.notify('添加收藏', resp.errorMsg);
           }
         );
       },

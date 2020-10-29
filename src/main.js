@@ -18,6 +18,17 @@ Vue.prototype.notify = (title, message) => { Vue.prototype.$notify({
 
 Vue.use(ElementUI, {size: 'small', zIndex: 3000});
 
+router.beforeEach((to, from, next) => {
+  storage.session.set('referer', from.path);
+  if(to.path.indexOf('/account') !== -1){
+    if(!storage.local.get('current_user')){
+      Vue.prototype.notify('请登录后再进行操作。');
+      router.push('/login');
+    }
+  }
+  next(true)
+})
+
 new Vue({
   render: h => h(App),
   router

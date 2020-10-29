@@ -5,29 +5,30 @@
     </el-menu-item>
 
     <el-menu-item index="1">
-      <el-input placeholder="请输入内容">
-        <el-button slot="append" icon="el-icon-search"></el-button>
+      <el-input placeholder="请输入内容" v-model="keyword">
+        <el-button slot="append" icon="el-icon-search" @click="$router.push(`/search/${keyword}`)"></el-button>
       </el-input>
     </el-menu-item>
 
     <template v-if="current_user">
       <el-menu-item style="float: right" index="2">
         <!-- 会员中心 -->
-        <el-dropdown trigger="click">
+        <el-dropdown trigger="click" @command="userCommand">
           <span class="el-dropdown-link expand-menu-item">
             <i class="el-icon-user"></i>
             会员中心
             <i class="el-icon-arrow-down el-icon--right"></i>
           </span>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item command="logout">注销</el-dropdown-item>
+            <el-dropdown-item v-for="item in center_items" :key="item.path" :command="item.path" :icon='item.icon'>{{item.title}}</el-dropdown-item>
+            <el-dropdown-item command="logout" icon='el-icon-switch-button'>注销</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
       </el-menu-item>
       <el-menu-item style="float: right">欢迎，{{current_user.nickname}}。</el-menu-item>
       <el-menu-item style="float: right" index="4">
         <!-- 购物车 -->
-        <el-dropdown trigger="click" :hide-on-click="false" ref="cart" @command="cartClicked">
+        <el-dropdown trigger="click" :hide-on-click="false" ref="cart" @command="cartCommand">
           <span class="el-dropdown-link">
             <i class="el-icon-shopping-cart-1 expand-menu-item"></i>
           </span>
@@ -78,6 +79,15 @@
         current_user: null,
         cart_items: [],
         cart_price: null,
+        center_items: [
+          {path:'/account/my-orders', title:'我的订单', icon:'el-icon-tickets'},
+          {path:'/account/favourites', title:'收藏夹', icon:'el-icon-star-off'},
+          {path:'/account/contacts', title:'常用联系人', icon:'el-icon-collection'},
+          {path:'/account/infomation', title:'个人信息', icon:'el-icon-user'},
+          {path:'/account/charge', title:'账户充值', icon:'el-icon-money'},
+          {path:'/account/payment', title:'未支付订单', icon:'el-icon-goods'},
+        ],
+        keyword: this.$route.params.keyword,
       }
     },
     created() {
@@ -88,7 +98,7 @@
       this.getCartItems();
     },
     methods: {
-      cartClicked(command) {
+      cartCommand(command) {
         if(command !== 'final') {
           this.$refs.cart.visible = false
         }
@@ -97,12 +107,18 @@
         if (command === 'logout') {
           this.stor.local.remove('current_user');
           this.bus.$emit('userChanged');
+          if(this.$route.path.indexOf('/account') !== -1) {
+            this.$router.push('/');
+          }
+        } else {
+          this.$router.push(command);
         }
       },
       getCurrentUser() {
         this.current_user = this.stor.local.get('current_user');
       },
       getCartItems() {
+        if (!this.current_user) return;
         this.req.post(this.api.CART_LIST, {
           userId: this.current_user.id,
         }).then(

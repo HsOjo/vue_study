@@ -42,7 +42,7 @@
               this.stor.local.set('current_user', user);
               this.bus.$emit('userChanged');
             }
-            this.$router.push('/');
+            this.$router.push(this.stor.session.get('referer'));
             this.notify('用户登录', resp.errorMsg);
           }
         )

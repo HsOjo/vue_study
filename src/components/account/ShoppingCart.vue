@@ -50,7 +50,8 @@
         <span style="float: right">¥{{totalPrice}}</span>
       </el-row>
       <el-row style="margin-top: 16px">
-        <el-button type="success" style="display: block; float: right">立即支付</el-button>
+        <el-button type="success" style="display: block; float: right"
+          @click="commitOrder(cart_items)">立即支付</el-button>
       </el-row>
     </el-col>
   </el-row>
@@ -70,9 +71,7 @@ export default {
   },
   created() {
     this.vm = this;
-    this.bus.$on('userChanged', this.getCurrentUser);
     this.getCurrentUser();
-    this.bus.$on('cartChanged', this.getCartItems);
     this.getCartItems();
   },
   computed: {
@@ -85,13 +84,6 @@ export default {
     },
   },
   methods: {
-    checkLogin(){
-      if(!this.current_user){
-        this.$router.push('/login');
-        return false;
-      }
-      return true;
-    },
     getCurrentUser() {
       this.current_user = this.stor.local.get('current_user');
     },
@@ -106,7 +98,6 @@ export default {
       )
     },
     removeCartItem(commodity_id) {
-      this.checkLogin();
       this.req.post(`${this.api.CART_REMOVE}`, {
         productId: commodity_id,
         userId: this.current_user.id,
@@ -118,7 +109,6 @@ export default {
       );
     },
     removeCartAllItems() {
-      this.checkLogin();
       this.req.post(`${this.api.CART_REMOVE_ALL}`, {
         userId: this.current_user.id,
       }).then(
@@ -142,6 +132,21 @@ export default {
           this.notify('更新购物车', resp.errorMsg);
         }
       );
+    },
+    commitOrder(cart_items) {
+      let order_items = [];
+      for(let item in cart_items) {
+        order_items.push({productId: item.id, quantity: item.quantity});
+      }
+      this.req.post(this.api.ORDER_COMMIT, {
+        orderItemList: order_items, userId: this.current_user.id
+      }).then(
+        resp => {
+          this.bus.$emit('cartChanged');
+          this.notify('提交订单', resp.errorMsg);
+          this.$router.push('/account/payment');
+        }
+      )
     }
   }
 }

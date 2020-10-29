@@ -1,9 +1,8 @@
 <template>
   <el-container>
-    <el-aside width="224px">
-      <CategoryAside></CategoryAside>
-    </el-aside>
-    <el-main class="category-container">
+    <el-main class="search-container">
+      <span style="text-align: center; display: block; color: rgba(0,0,0,0.8); font-size: 24px">查询关键字：{{keyword}}</span>
+      <el-divider/>
       <CommodityItem v-for="commodity in commodity_items" :key="commodity.id"
        :item_id="commodity.id"
        :item_name="commodity.name"
@@ -16,12 +15,11 @@
 </template>
 
 <script>
-  import CategoryAside from "@/components/common/CategoryAside";
   import CommodityItem from "@/components/common/CommodityItem";
 
   export default {
-    name: "Category",
-    components: {CategoryAside, CommodityItem},
+    name: "Search",
+    components: {CommodityItem},
     data() {
       return {
         vm: null,
@@ -29,22 +27,17 @@
       }
     },
     computed: {
-      categoryId() {
-        return this.$route.params.id;
-      }
-    },
-    watch: {
-      categoryId(new_value) {
-        this.getCategoryInfo(new_value);
+      keyword() {
+        return this.$route.params.keyword;
       }
     },
     created() {
       this.vm = this;
-      this.getCategoryInfo(this.categoryId);
+      this.getSearchItems(this.keyword);
     },
     methods: {
-      getCategoryInfo(category_id) {
-        this.req.get(`${this.api.CATEGORY_INFO}/${category_id}`).then(
+      getSearchItems(keyword) {
+        this.req.get(`${this.api.COMMODITY_SEARCH}/${keyword}/page/1`).then(
           resp => {
             this.commodity_items = resp.data.productList;
           }
@@ -55,8 +48,12 @@
 </script>
 
 <style scoped>
-  .category-container {
+  .search-container {
     display: flex;
     flex-wrap: wrap;
+    flex: none;
+    width: 1280px;
+    margin-left: auto;
+    margin-right: auto;
   }
 </style>

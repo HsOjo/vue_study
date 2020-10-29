@@ -1,5 +1,5 @@
 <template>
-  <el-container style="width: 960px; margin-left: auto; margin-right: auto;">
+  <el-container>
     <el-aside width="224px">
       <CategoryAside></CategoryAside>
     </el-aside>
