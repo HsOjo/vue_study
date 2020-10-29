@@ -13,7 +13,7 @@
           :item_name="commodity.name"
           :item_img="vm.api.BASE + commodity.defaultImg"
           :item_price="commodity.price"
-          :item_price_real="commodity.shop_price"
+          :item_price_real="commodity.shopPrice"
           ></CommodityItem>
         </el-container>
       </el-row>

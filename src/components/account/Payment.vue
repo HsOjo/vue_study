@@ -84,7 +84,7 @@ export default {
     return {
       vm: null,
       current_user: null,
-      order_items: [],
+      order_items: null,
       contact_items: [],
       price: null,
       contact_id: null,
