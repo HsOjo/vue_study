@@ -21,7 +21,7 @@
           </span>
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item v-for="item in center_items" :key="item.path" :command="item.path" :icon='item.icon'>{{item.title}}</el-dropdown-item>
-            <el-dropdown-item command="logout" icon='el-icon-switch-button'>注销</el-dropdown-item>
+            <el-dropdown-item command="logout" icon='el-icon-switch-button' divided>注销</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
       </el-menu-item>
